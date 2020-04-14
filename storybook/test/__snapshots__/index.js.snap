@@ -694,148 +694,6 @@ exports[`Storyshots Components/BoxControl Default 1`] = `
         </div>
       </div>
       <div
-        aria-label="Right"
-        className="emotion-29 emotion-30"
-      >
-        <div
-          className="component-unit-control emotion-27 emotion-28"
-          style={
-            Object {
-              "maxWidth": 60,
-              "position": "absolute",
-              "right": 0,
-              "top": "50%",
-              "transform": "translateY(calc(-50% - 3px))",
-              "zIndex": 1,
-            }
-          }
-        >
-          <div
-            className="emotion-25 emotion-26"
-          >
-            <label
-              className="emotion-11 emotion-12"
-              htmlFor="inspector-input-control-1"
-              size="small"
-            >
-              Right
-            </label>
-            <div
-              className="emotion-23 emotion-24"
-            >
-              <input
-                aria-label="Right"
-                className="component-input-control component-number-control component-unit-control__input emotion-13 emotion-14 emotion-15 emotion-16"
-                id="inspector-input-control-1"
-                inputMode="numeric"
-                onBlur={[Function]}
-                onChange={[Function]}
-                onFocus={[Function]}
-                onKeyDown={[Function]}
-                onMouseDown={[Function]}
-                onTouchStart={[Function]}
-                size="small"
-                style={
-                  Object {
-                    "cursor": undefined,
-                    "userSelect": undefined,
-                  }
-                }
-                type="number"
-                value={0}
-              />
-              <fieldset
-                aria-hidden="true"
-                className="emotion-21 emotion-22"
-              >
-                <legend
-                  aria-hidden="true"
-                  className="emotion-19 emotion-20"
-                  size="small"
-                >
-                  <span
-                    className="emotion-17 emotion-18"
-                  >
-                    Right
-                  </span>
-                </legend>
-              </fieldset>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div
-        aria-label="Bottom"
-        className="emotion-29 emotion-30"
-      >
-        <div
-          className="component-unit-control emotion-27 emotion-28"
-          style={
-            Object {
-              "bottom": 0,
-              "left": "50%",
-              "maxWidth": 60,
-              "position": "absolute",
-              "transform": "translateX(-50%)",
-              "zIndex": 1,
-            }
-          }
-        >
-          <div
-            className="emotion-25 emotion-26"
-          >
-            <label
-              className="emotion-11 emotion-12"
-              htmlFor="inspector-input-control-2"
-              size="small"
-            >
-              Bottom
-            </label>
-            <div
-              className="emotion-23 emotion-24"
-            >
-              <input
-                aria-label="Bottom"
-                className="component-input-control component-number-control component-unit-control__input emotion-13 emotion-14 emotion-15 emotion-16"
-                id="inspector-input-control-2"
-                inputMode="numeric"
-                onBlur={[Function]}
-                onChange={[Function]}
-                onFocus={[Function]}
-                onKeyDown={[Function]}
-                onMouseDown={[Function]}
-                onTouchStart={[Function]}
-                size="small"
-                style={
-                  Object {
-                    "cursor": undefined,
-                    "userSelect": undefined,
-                  }
-                }
-                type="number"
-                value={0}
-              />
-              <fieldset
-                aria-hidden="true"
-                className="emotion-21 emotion-22"
-              >
-                <legend
-                  aria-hidden="true"
-                  className="emotion-19 emotion-20"
-                  size="small"
-                >
-                  <span
-                    className="emotion-17 emotion-18"
-                  >
-                    Bottom
-                  </span>
-                </legend>
-              </fieldset>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div
         aria-label="Left"
         className="emotion-29 emotion-30"
       >
@@ -857,7 +715,7 @@ exports[`Storyshots Components/BoxControl Default 1`] = `
           >
             <label
               className="emotion-11 emotion-12"
-              htmlFor="inspector-input-control-3"
+              htmlFor="inspector-input-control-1"
               size="small"
             >
               Left
@@ -868,7 +726,7 @@ exports[`Storyshots Components/BoxControl Default 1`] = `
               <input
                 aria-label="Left"
                 className="component-input-control component-number-control component-unit-control__input emotion-13 emotion-14 emotion-15 emotion-16"
-                id="inspector-input-control-3"
+                id="inspector-input-control-1"
                 inputMode="numeric"
                 onBlur={[Function]}
                 onChange={[Function]}
@@ -928,7 +786,7 @@ exports[`Storyshots Components/BoxControl Default 1`] = `
           >
             <label
               className="emotion-11 emotion-12"
-              htmlFor="inspector-input-control-4"
+              htmlFor="inspector-input-control-2"
               size="small"
             >
               All
@@ -938,6 +796,148 @@ exports[`Storyshots Components/BoxControl Default 1`] = `
             >
               <input
                 aria-label="All"
+                className="component-input-control component-number-control component-unit-control__input emotion-13 emotion-14 emotion-15 emotion-16"
+                id="inspector-input-control-2"
+                inputMode="numeric"
+                onBlur={[Function]}
+                onChange={[Function]}
+                onFocus={[Function]}
+                onKeyDown={[Function]}
+                onMouseDown={[Function]}
+                onTouchStart={[Function]}
+                size="small"
+                style={
+                  Object {
+                    "cursor": undefined,
+                    "userSelect": undefined,
+                  }
+                }
+                type="number"
+                value={0}
+              />
+              <fieldset
+                aria-hidden="true"
+                className="emotion-21 emotion-22"
+              >
+                <legend
+                  aria-hidden="true"
+                  className="emotion-19 emotion-20"
+                  size="small"
+                >
+                  <span
+                    className="emotion-17 emotion-18"
+                  >
+                    All
+                  </span>
+                </legend>
+              </fieldset>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        aria-label="Right"
+        className="emotion-29 emotion-30"
+      >
+        <div
+          className="component-unit-control emotion-27 emotion-28"
+          style={
+            Object {
+              "maxWidth": 60,
+              "position": "absolute",
+              "right": 0,
+              "top": "50%",
+              "transform": "translateY(calc(-50% - 3px))",
+              "zIndex": 1,
+            }
+          }
+        >
+          <div
+            className="emotion-25 emotion-26"
+          >
+            <label
+              className="emotion-11 emotion-12"
+              htmlFor="inspector-input-control-3"
+              size="small"
+            >
+              Right
+            </label>
+            <div
+              className="emotion-23 emotion-24"
+            >
+              <input
+                aria-label="Right"
+                className="component-input-control component-number-control component-unit-control__input emotion-13 emotion-14 emotion-15 emotion-16"
+                id="inspector-input-control-3"
+                inputMode="numeric"
+                onBlur={[Function]}
+                onChange={[Function]}
+                onFocus={[Function]}
+                onKeyDown={[Function]}
+                onMouseDown={[Function]}
+                onTouchStart={[Function]}
+                size="small"
+                style={
+                  Object {
+                    "cursor": undefined,
+                    "userSelect": undefined,
+                  }
+                }
+                type="number"
+                value={0}
+              />
+              <fieldset
+                aria-hidden="true"
+                className="emotion-21 emotion-22"
+              >
+                <legend
+                  aria-hidden="true"
+                  className="emotion-19 emotion-20"
+                  size="small"
+                >
+                  <span
+                    className="emotion-17 emotion-18"
+                  >
+                    Right
+                  </span>
+                </legend>
+              </fieldset>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        aria-label="Bottom"
+        className="emotion-29 emotion-30"
+      >
+        <div
+          className="component-unit-control emotion-27 emotion-28"
+          style={
+            Object {
+              "bottom": 0,
+              "left": "50%",
+              "maxWidth": 60,
+              "position": "absolute",
+              "transform": "translateX(-50%)",
+              "zIndex": 1,
+            }
+          }
+        >
+          <div
+            className="emotion-25 emotion-26"
+          >
+            <label
+              className="emotion-11 emotion-12"
+              htmlFor="inspector-input-control-4"
+              size="small"
+            >
+              Bottom
+            </label>
+            <div
+              className="emotion-23 emotion-24"
+            >
+              <input
+                aria-label="Bottom"
                 className="component-input-control component-number-control component-unit-control__input emotion-13 emotion-14 emotion-15 emotion-16"
                 id="inspector-input-control-4"
                 inputMode="numeric"
@@ -969,7 +969,7 @@ exports[`Storyshots Components/BoxControl Default 1`] = `
                   <span
                     className="emotion-17 emotion-18"
                   >
-                    All
+                    Bottom
                   </span>
                 </legend>
               </fieldset>
@@ -1491,148 +1491,6 @@ exports[`Storyshots Components/BoxControl Demo 1`] = `
               </div>
             </div>
             <div
-              aria-label="Right"
-              className="emotion-29 emotion-30"
-            >
-              <div
-                className="component-unit-control emotion-27 emotion-28"
-                style={
-                  Object {
-                    "maxWidth": 60,
-                    "position": "absolute",
-                    "right": 0,
-                    "top": "50%",
-                    "transform": "translateY(calc(-50% - 3px))",
-                    "zIndex": 1,
-                  }
-                }
-              >
-                <div
-                  className="emotion-25 emotion-26"
-                >
-                  <label
-                    className="emotion-11 emotion-12"
-                    htmlFor="inspector-input-control-6"
-                    size="small"
-                  >
-                    Right
-                  </label>
-                  <div
-                    className="emotion-23 emotion-24"
-                  >
-                    <input
-                      aria-label="Right"
-                      className="component-input-control component-number-control component-unit-control__input emotion-13 emotion-14 emotion-15 emotion-16"
-                      id="inspector-input-control-6"
-                      inputMode="numeric"
-                      onBlur={[Function]}
-                      onChange={[Function]}
-                      onFocus={[Function]}
-                      onKeyDown={[Function]}
-                      onMouseDown={[Function]}
-                      onTouchStart={[Function]}
-                      size="small"
-                      style={
-                        Object {
-                          "cursor": undefined,
-                          "userSelect": undefined,
-                        }
-                      }
-                      type="number"
-                      value={10}
-                    />
-                    <fieldset
-                      aria-hidden="true"
-                      className="emotion-21 emotion-22"
-                    >
-                      <legend
-                        aria-hidden="true"
-                        className="emotion-19 emotion-20"
-                        size="small"
-                      >
-                        <span
-                          className="emotion-17 emotion-18"
-                        >
-                          Right
-                        </span>
-                      </legend>
-                    </fieldset>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div
-              aria-label="Bottom"
-              className="emotion-29 emotion-30"
-            >
-              <div
-                className="component-unit-control emotion-27 emotion-28"
-                style={
-                  Object {
-                    "bottom": 0,
-                    "left": "50%",
-                    "maxWidth": 60,
-                    "position": "absolute",
-                    "transform": "translateX(-50%)",
-                    "zIndex": 1,
-                  }
-                }
-              >
-                <div
-                  className="emotion-25 emotion-26"
-                >
-                  <label
-                    className="emotion-11 emotion-12"
-                    htmlFor="inspector-input-control-7"
-                    size="small"
-                  >
-                    Bottom
-                  </label>
-                  <div
-                    className="emotion-23 emotion-24"
-                  >
-                    <input
-                      aria-label="Bottom"
-                      className="component-input-control component-number-control component-unit-control__input emotion-13 emotion-14 emotion-15 emotion-16"
-                      id="inspector-input-control-7"
-                      inputMode="numeric"
-                      onBlur={[Function]}
-                      onChange={[Function]}
-                      onFocus={[Function]}
-                      onKeyDown={[Function]}
-                      onMouseDown={[Function]}
-                      onTouchStart={[Function]}
-                      size="small"
-                      style={
-                        Object {
-                          "cursor": undefined,
-                          "userSelect": undefined,
-                        }
-                      }
-                      type="number"
-                      value={10}
-                    />
-                    <fieldset
-                      aria-hidden="true"
-                      className="emotion-21 emotion-22"
-                    >
-                      <legend
-                        aria-hidden="true"
-                        className="emotion-19 emotion-20"
-                        size="small"
-                      >
-                        <span
-                          className="emotion-17 emotion-18"
-                        >
-                          Bottom
-                        </span>
-                      </legend>
-                    </fieldset>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div
               aria-label="Left"
               className="emotion-29 emotion-30"
             >
@@ -1654,7 +1512,7 @@ exports[`Storyshots Components/BoxControl Demo 1`] = `
                 >
                   <label
                     className="emotion-11 emotion-12"
-                    htmlFor="inspector-input-control-8"
+                    htmlFor="inspector-input-control-6"
                     size="small"
                   >
                     Left
@@ -1665,7 +1523,7 @@ exports[`Storyshots Components/BoxControl Demo 1`] = `
                     <input
                       aria-label="Left"
                       className="component-input-control component-number-control component-unit-control__input emotion-13 emotion-14 emotion-15 emotion-16"
-                      id="inspector-input-control-8"
+                      id="inspector-input-control-6"
                       inputMode="numeric"
                       onBlur={[Function]}
                       onChange={[Function]}
@@ -1725,7 +1583,7 @@ exports[`Storyshots Components/BoxControl Demo 1`] = `
                 >
                   <label
                     className="emotion-11 emotion-12"
-                    htmlFor="inspector-input-control-9"
+                    htmlFor="inspector-input-control-7"
                     size="small"
                   >
                     All
@@ -1735,6 +1593,148 @@ exports[`Storyshots Components/BoxControl Demo 1`] = `
                   >
                     <input
                       aria-label="All"
+                      className="component-input-control component-number-control component-unit-control__input emotion-13 emotion-14 emotion-15 emotion-16"
+                      id="inspector-input-control-7"
+                      inputMode="numeric"
+                      onBlur={[Function]}
+                      onChange={[Function]}
+                      onFocus={[Function]}
+                      onKeyDown={[Function]}
+                      onMouseDown={[Function]}
+                      onTouchStart={[Function]}
+                      size="small"
+                      style={
+                        Object {
+                          "cursor": undefined,
+                          "userSelect": undefined,
+                        }
+                      }
+                      type="number"
+                      value={10}
+                    />
+                    <fieldset
+                      aria-hidden="true"
+                      className="emotion-21 emotion-22"
+                    >
+                      <legend
+                        aria-hidden="true"
+                        className="emotion-19 emotion-20"
+                        size="small"
+                      >
+                        <span
+                          className="emotion-17 emotion-18"
+                        >
+                          All
+                        </span>
+                      </legend>
+                    </fieldset>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              aria-label="Right"
+              className="emotion-29 emotion-30"
+            >
+              <div
+                className="component-unit-control emotion-27 emotion-28"
+                style={
+                  Object {
+                    "maxWidth": 60,
+                    "position": "absolute",
+                    "right": 0,
+                    "top": "50%",
+                    "transform": "translateY(calc(-50% - 3px))",
+                    "zIndex": 1,
+                  }
+                }
+              >
+                <div
+                  className="emotion-25 emotion-26"
+                >
+                  <label
+                    className="emotion-11 emotion-12"
+                    htmlFor="inspector-input-control-8"
+                    size="small"
+                  >
+                    Right
+                  </label>
+                  <div
+                    className="emotion-23 emotion-24"
+                  >
+                    <input
+                      aria-label="Right"
+                      className="component-input-control component-number-control component-unit-control__input emotion-13 emotion-14 emotion-15 emotion-16"
+                      id="inspector-input-control-8"
+                      inputMode="numeric"
+                      onBlur={[Function]}
+                      onChange={[Function]}
+                      onFocus={[Function]}
+                      onKeyDown={[Function]}
+                      onMouseDown={[Function]}
+                      onTouchStart={[Function]}
+                      size="small"
+                      style={
+                        Object {
+                          "cursor": undefined,
+                          "userSelect": undefined,
+                        }
+                      }
+                      type="number"
+                      value={10}
+                    />
+                    <fieldset
+                      aria-hidden="true"
+                      className="emotion-21 emotion-22"
+                    >
+                      <legend
+                        aria-hidden="true"
+                        className="emotion-19 emotion-20"
+                        size="small"
+                      >
+                        <span
+                          className="emotion-17 emotion-18"
+                        >
+                          Right
+                        </span>
+                      </legend>
+                    </fieldset>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              aria-label="Bottom"
+              className="emotion-29 emotion-30"
+            >
+              <div
+                className="component-unit-control emotion-27 emotion-28"
+                style={
+                  Object {
+                    "bottom": 0,
+                    "left": "50%",
+                    "maxWidth": 60,
+                    "position": "absolute",
+                    "transform": "translateX(-50%)",
+                    "zIndex": 1,
+                  }
+                }
+              >
+                <div
+                  className="emotion-25 emotion-26"
+                >
+                  <label
+                    className="emotion-11 emotion-12"
+                    htmlFor="inspector-input-control-9"
+                    size="small"
+                  >
+                    Bottom
+                  </label>
+                  <div
+                    className="emotion-23 emotion-24"
+                  >
+                    <input
+                      aria-label="Bottom"
                       className="component-input-control component-number-control component-unit-control__input emotion-13 emotion-14 emotion-15 emotion-16"
                       id="inspector-input-control-9"
                       inputMode="numeric"
@@ -1766,7 +1766,7 @@ exports[`Storyshots Components/BoxControl Demo 1`] = `
                         <span
                           className="emotion-17 emotion-18"
                         >
-                          All
+                          Bottom
                         </span>
                       </legend>
                     </fieldset>
