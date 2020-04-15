@@ -33,6 +33,25 @@ const ignored = hasArgInCLI( '--ignore' )
 			.map( ( moduleName ) => moduleName.trim() )
 	: [];
 
+// These packages are (sub)dependencies of "@react-native-community/cli" which is
+// a direct dependency of "react-native". But the code from "@react-native-community/cli"
+// is not shipped to production so these dependencies are whitelisted here.
+const whitelistedDevPackages = [
+	'rx-lite',
+	'rx-lite-aggregates',
+	'rxjs',
+	'validate-npm-package-license',
+	'spdx-correct',
+	'spdx-exceptions',
+	'rxjs',
+	'fb-watchman',
+	'bser',
+	'detect-libc',
+	'@cnakazawa/watch',
+	'walker',
+	'xcode',
+];
+
 /*
  * A list of license strings that we've found to be GPL2 compatible.
  *
@@ -281,7 +300,7 @@ modules.forEach( ( path ) => {
 		checkLicense( allowedLicense, licenseType )
 	);
 
-	if ( ! allowed ) {
+	if ( ! allowed && ! whitelistedDevPackages.includes( packageInfo.name ) ) {
 		process.exitCode = 1;
 		process.stdout.write(
 			`${ ERROR } Module ${ packageInfo.name } has an incompatible license '${ licenseType }'.\n`
