@@ -60,6 +60,7 @@ export function* getEntityRecord( kind, name, key = '' ) {
 	const record = yield apiFetch( {
 		path: `${ entity.baseURL }/${ key }?context=edit`,
 	} );
+
 	yield receiveEntityRecords( kind, name, record );
 }
 
