@@ -5,56 +5,56 @@ import { render } from 'react-dom';
 import '@wordpress/core-data';
 import { withSelect, withDispatch } from '@wordpress/data';
 
-const Candidates = function( { candidates, toggleNeedsAction } ) {
-	return candidates.map( ( c ) => (
-		<div key={ c.id }>
+const Books = function( { books, toggleIsFavourite } ) {
+	return books.map( ( b ) => (
+		<div key={ b.id }>
+			Is Favourite:
 			<input
 				type="checkbox"
-				checked={ c.json.needsAction || false }
+				checked={ b.json.isFavouriteBook }
 				onChange={ () => {
-					toggleNeedsAction( c );
+					toggleIsFavourite( b );
 				} }
 			/>
-			Name: { c.json.name }
+			Title: { b.title.raw }
 		</div>
 	) );
 };
 
-const CandidateContainer = function( { candidates, toggleNeedsAction } ) {
+const BookContainer = function( { books, toggleIsFavourite } ) {
 	return (
-		<Candidates
-			candidates={ candidates }
-			toggleNeedsAction={ toggleNeedsAction }
-		/>
+		<>
+			<h2>Books</h2>
+			<Books books={ books } toggleIsFavourite={ toggleIsFavourite } />
+		</>
 	);
 };
 
 const App = compose( [
 	withSelect( ( select ) => {
-		const args = [ 'postType', 'candidate', { per_page: 300 } ];
-
-		const candidates = select( 'core' ).getEntityRecords( ...args ) || [];
+		const args = [ 'postType', 'book' ];
+		const books = select( 'core' ).getEntityRecords( ...args ) || [];
 
 		return {
-			candidates,
+			books,
 		};
 	} ),
 	withDispatch( ( dispatch ) => {
 		const { saveEntityRecord } = dispatch( 'core' );
 
 		return {
-			toggleNeedsAction: ( candidate ) => {
-				saveEntityRecord( 'postType', 'candidate', {
-					id: candidate.id,
+			toggleIsFavourite: ( book ) => {
+				saveEntityRecord( 'postType', 'book', {
+					id: book.id,
 					json: {
-						...candidate.json,
-						needsAction: ! candidate.json.needsAction,
+						...book.json,
+						isFavouriteBook: ! book.json.isFavouriteBook,
 					},
 				} );
 			},
 		};
 	} ),
-] )( CandidateContainer );
+] )( BookContainer );
 
 const renderApp = () => {
 	render( <App />, document.getElementById( 'core-data' ) );

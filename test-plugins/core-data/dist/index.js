@@ -117,56 +117,54 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-var Candidates = function Candidates(_ref) {
-  var candidates = _ref.candidates,
-      toggleNeedsAction = _ref.toggleNeedsAction;
-  return candidates.map(function (c) {
+var Books = function Books(_ref) {
+  var books = _ref.books,
+      toggleIsFavourite = _ref.toggleIsFavourite;
+  return books.map(function (b) {
     return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])("div", {
-      key: c.id
-    }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])("input", {
+      key: b.id
+    }, "Is Favourite:", Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])("input", {
       type: "checkbox",
-      checked: c.json.needsAction || false,
+      checked: b.json.isFavouriteBook,
       onChange: function onChange() {
-        toggleNeedsAction(c);
+        toggleIsFavourite(b);
       }
-    }), "Name: ", c.json.name);
+    }), "Title: ", b.title.raw);
   });
 };
 
-var CandidateContainer = function CandidateContainer(_ref2) {
-  var candidates = _ref2.candidates,
-      toggleNeedsAction = _ref2.toggleNeedsAction;
-  return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])(Candidates, {
-    candidates: candidates,
-    toggleNeedsAction: toggleNeedsAction
-  });
+var BookContainer = function BookContainer(_ref2) {
+  var books = _ref2.books,
+      toggleIsFavourite = _ref2.toggleIsFavourite;
+  return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["Fragment"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])("h2", null, "Books"), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])(Books, {
+    books: books,
+    toggleIsFavourite: toggleIsFavourite
+  }));
 };
 
 var App = Object(_wordpress_compose__WEBPACK_IMPORTED_MODULE_3__["compose"])([Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_6__["withSelect"])(function (select) {
   var _select;
 
-  var args = ['postType', 'candidate', {
-    per_page: 300
-  }];
-  var candidates = (_select = select('core')).getEntityRecords.apply(_select, args) || [];
+  var args = ['postType', 'book'];
+  var books = (_select = select('core')).getEntityRecords.apply(_select, args) || [];
   return {
-    candidates: candidates
+    books: books
   };
 }), Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_6__["withDispatch"])(function (dispatch) {
   var _dispatch = dispatch('core'),
       saveEntityRecord = _dispatch.saveEntityRecord;
 
   return {
-    toggleNeedsAction: function toggleNeedsAction(candidate) {
-      saveEntityRecord('postType', 'candidate', {
-        id: candidate.id,
-        json: _babel_runtime_helpers_objectSpread2__WEBPACK_IMPORTED_MODULE_0___default()(_babel_runtime_helpers_objectSpread2__WEBPACK_IMPORTED_MODULE_0___default()({}, candidate.json), {}, {
-          needsAction: !candidate.json.needsAction
+    toggleIsFavourite: function toggleIsFavourite(book) {
+      saveEntityRecord('postType', 'book', {
+        id: book.id,
+        json: _babel_runtime_helpers_objectSpread2__WEBPACK_IMPORTED_MODULE_0___default()(_babel_runtime_helpers_objectSpread2__WEBPACK_IMPORTED_MODULE_0___default()({}, book.json), {}, {
+          isFavouriteBook: !book.json.isFavouriteBook
         })
       });
     }
   };
-})])(CandidateContainer);
+})])(BookContainer);
 
 var renderApp = function renderApp() {
   Object(react_dom__WEBPACK_IMPORTED_MODULE_4__["render"])(Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])(App, null), document.getElementById('core-data'));

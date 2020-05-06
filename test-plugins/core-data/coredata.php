@@ -24,14 +24,6 @@ function coredata_issue() {
 		'coredata_issue',
 		'core_data_issue'
 	);
-	add_submenu_page(
-		'pistachio',
-		'Candidates',
-		'Candidates',
-		'manage_options',
-		'edit.php?post_type=candidate',
-		null
-	);
 }
 add_action( 'admin_menu', 'coredata_issue' );
 
@@ -52,23 +44,23 @@ function enqueue_scripts() {
 add_action( 'admin_enqueue_scripts', 'enqueue_scripts', 10 );
 
 /**
- * Register the Candidate Custom Post Type.
+ * Register the Book Custom Post Type.
  */
-function candidate_post_type() {
+function book_post_type() {
 
 	$labels = array(
-		'name'           => _x( 'Candidates', 'Post Type General Name', 'pistachio' ),
-		'singular_name'  => _x( 'Candidate', 'Post Type Singular Name', 'pistachio' ),
-		'menu_name'      => __( 'Pistachio', 'pistachio' ),
-		'name_admin_bar' => __( 'Candidates', 'pistachio' ),
-		'archives'       => __( 'Candidate Archives', 'pistachio' ),
-		'attributes'     => __( 'Candidate Attributes', 'pistachio' ),
-		'all_items'      => __( 'All candidates', 'pistachio' ),
-		'add_new'        => __( 'Add New', 'pistachio' ),
+		'name'           => _x( 'Books', 'Post Type General Name', 'coredata_issue' ),
+		'singular_name'  => _x( 'Book', 'Post Type Singular Name', 'coredata_issue' ),
+		'menu_name'      => __( 'My Books', 'coredata_issue' ),
+		'name_admin_bar' => __( 'Books', 'coredata_issue' ),
+		'archives'       => __( 'Book Archives', 'coredata_issue' ),
+		'attributes'     => __( 'Book Attributes', 'coredata_issue' ),
+		'all_items'      => __( 'All books', 'coredata_issue' ),
+		'add_new'        => __( 'Add New', 'coreddata_issue' ),
 	);
 	$args   = array(
-		'label'               => __( 'Candidate', 'pistachio' ),
-		'description'         => __( 'Greenhouse Candidate', 'pistachio' ),
+		'label'               => __( 'Book', 'coredata_issue' ),
+		'description'         => __( 'Book', 'coredata_issue' ),
 		'labels'              => $labels,
 		'supports'            => array( 'title' ),
 		'hierarchical'        => false,
@@ -83,12 +75,12 @@ function candidate_post_type() {
 		'rewrite'             => false,
 		'capability_type'     => 'post',
 		'show_in_rest'        => true,
-		'rest_base'           => 'candidates',
+		'rest_base'           => 'books',
 	);
-	register_post_type( 'candidate', $args );
+	register_post_type( 'book', $args );
 
 	register_rest_field(
-		'candidate',
+		'book',
 		'json',
 		[
 			'get_callback'    =>
@@ -103,7 +95,7 @@ function candidate_post_type() {
 	);
 
 }
-add_action( 'init', 'candidate_post_type' );
+add_action( 'init', 'book_post_type' );
 
 /**
  * Increase REST API per page value.
@@ -120,256 +112,42 @@ function change_per_page( $params ) {
 }
 add_filter( 'rest_candidate_collection_params', 'change_per_page', 10, 1 );
 
-// Dummy data
-
-
 /**
- * Import candidates from candidates.json.
+ * Import books from books json.
  */
 function import_fixtures() {
 	if (get_option( 'fixtures_imported', '0' ) == '1') {
 		return;
 	}
 
-	$candidates = <<<JSON
+	// Dummy data
+	$books = <<<JSON
 [
 	{
-		"application_ids": [ 1 ],
-		"applications": [
-			{
-				"applied_at": "2018-08-13T06:34:19.993Z",
-				"candidate_id": 1,
-				"credited_to": null,
-				"current_stage": {
-					"id": 1,
-					"name": "Matt Chat"
-				},
-				"id": 1,
-				"jobs": [
-					{
-						"id": 2,
-						"name": "Code Wrangler"
-					}
-				],
-				"last_activity_at": "2018-08-15T06:32:00.565Z",
-				"location": null,
-				"prospect": false,
-				"source": null,
-				"status": "active"
-			}
-		],
-		"attachments": [
-			{
-				"filename": "Bonita Wintheiser - Cover Letter Intro.txt",
-				"type": "cover_letter",
-				"url": "http://example.com/text.txt"
-			},
-			{
-				"filename": "resume",
-				"type": "resume",
-				"url": "http://example.com/resume.pdf"
-			}
-		],
-		"coordinator": null,
-		"created_at": "2018-08-15T06:02:57.176Z",
-		"email_addresses": [
-			{
-				"value": "Jaclyn_Renner@gmail.com",
-				"type": "personal"
-			}
-		],
-		"name": "Bonita Wintheiser",
-		"first_name": "Bonita",
-		"last_name": "Wintheiser",
-		"is_private": false,
-		"keyed_custom_fields": {
-			"gender": {
-				"name": "Gender",
-				"value": "Male",
-				"type": "short_text"
-			},
-			"git_hub_username": {
-				"name": "GitHub Username",
-				"value": null,
-				"type": "short_text"
-			},
-			"job_source": null,
-			"region": {
-				"name": "Region",
-				"value": "Asia - Pacific",
-				"type": "short_text"
-			},
-			"slack_channel": {
-				"name": "Slack Channel",
-				"value": null,
-				"type": "short_text"
-			},
-			"word_press_com_username": null
-		},
-		"last_activity": "2018-08-15T06:02:58.054Z",
-		"updated_at": "2018-08-15T06:02:58.075Z"
+		"title": "In Search of Lost Time",
+		"isFavouriteBook": false
 	},
 	{
-		"application_ids": [ 1 ],
-		"applications": [
-			{
-				"applied_at": "2018-08-13T06:34:19.993Z",
-				"candidate_id": 1,
-				"credited_to": null,
-				"current_stage": {
-					"id": 1,
-					"name": "Pre-Interview Form"
-				},
-				"id": 1,
-				"jobs": [
-					{
-						"id": 2,
-						"name": "Code Wrangler"
-					}
-				],
-				"last_activity_at": "2018-08-15T06:32:00.565Z",
-				"location": null,
-				"prospect": false,
-				"source": null,
-				"status": "active"
-			}
-		],
-		"attachments": [
-			{
-				"filename": "Sienna Schulist - Cover Letter Intro.txt",
-				"type": "cover_letter",
-				"url": "http://example.com/text.txt"
-			},
-			{
-				"filename": "resume",
-				"type": "resume",
-				"url": "http://example.com/resume.pdf"
-			}
-		],
-		"coordinator": null,
-		"created_at": "2018-08-15T06:02:57.176Z",
-		"email_addresses": [
-			{
-				"value": "Quinten.Swaniawski@Colten.org",
-				"type": "personal"
-			}
-		],
-		"name": "Sienna Schulist",
-		"first_name": "Sienna",
-		"last_name": "Schulist",
-		"is_private": false,
-		"keyed_custom_fields": {
-			"gender": {
-				"name": "Gender",
-				"value": null,
-				"type": "short_text"
-			},
-			"git_hub_username": {
-				"name": "GitHub Username",
-				"value": null,
-				"type": "short_text"
-			},
-			"job_source": null,
-			"region": {
-				"name": "Region",
-				"value": "Asia - Pacific",
-				"type": "short_text"
-			},
-			"slack_channel": {
-				"name": "Slack Channel",
-				"value": null,
-				"type": "short_text"
-			},
-			"word_press_com_username": null
-		},
-		"last_activity": "2018-08-15T06:02:58.054Z",
-		"updated_at": "2018-08-15T06:02:58.075Z"
+		"title": "Ulysses",
+		"isFavouriteBook": false
 	},
 	{
-		"application_ids": [ 1 ],
-		"applications": [
-			{
-				"applied_at": "2018-08-13T06:34:19.993Z",
-				"candidate_id": 1,
-				"credited_to": null,
-				"current_stage": {
-					"id": 1,
-					"name": "Interview"
-				},
-				"id": 1,
-				"jobs": [
-					{
-						"id": 2,
-						"name": "Code Wrangler"
-					}
-				],
-				"last_activity_at": "2018-08-15T06:32:00.565Z",
-				"location": null,
-				"prospect": false,
-				"source": null,
-				"status": "active"
-			}
-		],
-		"attachments": [
-			{
-				"filename": "Shad Kulas - Cover Letter Intro.txt",
-				"type": "cover_letter",
-				"url": "http://example.com/text.txt"
-			},
-			{
-				"filename": "resume",
-				"type": "resume",
-				"url": "http://example.com/resume.pdf"
-			}
-		],
-		"coordinator": null,
-		"created_at": "2018-08-15T06:02:57.176Z",
-		"email_addresses": [
-			{
-				"value": "Mathias_Mante@yahoo.com",
-				"type": "personal"
-			}
-		],
-		"name": "Shad Kulas",
-		"first_name": "Shad",
-		"last_name": "Kulas",
-		"is_private": false,
-		"keyed_custom_fields": {
-			"gender": {
-				"name": "Gender",
-				"value": null,
-				"type": "short_text"
-			},
-			"git_hub_username": {
-				"name": "GitHub Username",
-				"value": null,
-				"type": "short_text"
-			},
-			"job_source": null,
-			"region": {
-				"name": "Region",
-				"value": "Asia - Pacific",
-				"type": "short_text"
-			},
-			"slack_channel": {
-				"name": "Slack Channel",
-				"value": null,
-				"type": "short_text"
-			},
-			"word_press_com_username": "Durgan.Tierra"
-		},
-		"last_activity": "2018-08-15T06:02:58.054Z",
-		"updated_at": "2018-08-15T06:02:58.075Z"
+		"title": "Don Quixote",
+		"isFavouriteBook": false
+	},
+	{
+		"title": "The Great Gatsby",
+		"isFavouriteBook": false
 	}
 ]
 JSON;
 
-	$json = json_decode($candidates);
+	$json = json_decode($books);
 	foreach ( $json as $c ) {
 		$post_id = wp_insert_post(
 			[
-				'post_title'  => $c->name,
-				'post_type'   => 'candidate',
+				'post_title'  => $c->title,
+				'post_type'   => 'book',
 				'post_status' => 'publish',
 			]
 		);
