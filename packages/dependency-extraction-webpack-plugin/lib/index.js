@@ -31,6 +31,7 @@ class DependencyExtractionWebpackPlugin {
 				outputFormat: 'php',
 				outputFilename: null,
 				useDefaults: true,
+				staticDependencies: [],
 			},
 			options
 		);
@@ -68,8 +69,9 @@ class DependencyExtractionWebpackPlugin {
 				if (
 					typeof this.options.requestToExternalModule === 'function'
 				) {
-					externalRequest =
-						this.options.requestToExternalModule( request );
+					externalRequest = this.options.requestToExternalModule(
+						request
+					);
 
 					// requestToExternalModule allows a boolean shorthand
 					if ( externalRequest === false ) {
@@ -165,8 +167,9 @@ class DependencyExtractionWebpackPlugin {
 				compilation.hooks.processAssets.tap(
 					{
 						name: this.constructor.name,
-						stage: compiler.webpack.Compilation
-							.PROCESS_ASSETS_STAGE_ANALYSE,
+						stage:
+							compiler.webpack.Compilation
+								.PROCESS_ASSETS_STAGE_ANALYSE,
 					},
 					() => this.addAssets( compilation )
 				);
@@ -232,6 +235,10 @@ class DependencyExtractionWebpackPlugin {
 				chunkStaticDeps.add( 'wp-polyfill' );
 			}
 
+			for ( const staticDependency of staticDependencies ) {
+				chunkStaticDeps.add( staticDependency );
+			}
+
 			/**
 			 * @param {webpack.Module} m
 			 */
@@ -239,11 +246,10 @@ class DependencyExtractionWebpackPlugin {
 				const { userRequest } = m;
 				if ( this.externalizedDeps.has( userRequest ) ) {
 					if ( this.useModules ) {
-						const isStatic =
-							DependencyExtractionWebpackPlugin.hasStaticDependencyPathToRoot(
-								compilation,
-								m
-							);
+						const isStatic = DependencyExtractionWebpackPlugin.hasStaticDependencyPathToRoot(
+							compilation,
+							m
+						);
 
 						( isStatic ? chunkStaticDeps : chunkDynamicDeps ).add(
 							m.request
@@ -275,8 +281,11 @@ class DependencyExtractionWebpackPlugin {
 			// `RealContentHashPlugin` after minification, but it only modifies
 			// already-produced asset filenames and the updated hash is not
 			// available to plugins.
-			const { hashFunction, hashDigest, hashDigestLength } =
-				compilation.outputOptions;
+			const {
+				hashFunction,
+				hashDigest,
+				hashDigestLength,
+			} = compilation.outputOptions;
 
 			const contentHash = chunkFiles
 				.sort()
@@ -377,8 +386,9 @@ class DependencyExtractionWebpackPlugin {
 		const staticDependentModules = incomingConnections.flatMap(
 			( connection ) => {
 				const { dependency } = connection;
-				const parentBlock =
-					compilation.moduleGraph.getParentBlock( dependency );
+				const parentBlock = compilation.moduleGraph.getParentBlock(
+					dependency
+				);
 
 				return parentBlock.constructor.name !==
 					AsyncDependenciesBlock.name
