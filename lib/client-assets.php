@@ -688,6 +688,7 @@ function gutenberg_default_script_modules() {
 		 */
 		$args = array(
 			'fetchpriority' => 'low',
+			'load_on_client_navigation' => true
 		);
 
 		$path = gutenberg_url( "build-module/{$file_name}" );
