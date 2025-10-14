@@ -49,7 +49,20 @@ export const preloadScriptModules = ( doc: Document ) => {
 		...doc.querySelectorAll< HTMLScriptElement >(
 			'script[type=module][src]'
 		),
-	].map( ( s ) => s.src );
+	]
+		.filter( ( s ) => {
+			const options = s.getAttribute( 'data-wp-router-options' );
+			if ( ! options ) {
+				return false;
+			}
+			try {
+				const parsed = JSON.parse( options );
+				return parsed?.loadOnClientNavigation === true;
+			} catch {
+				return false;
+			}
+		} )
+		.map( ( s ) => s.src );
 
 	// Resolve and fetch those not resolved natively.
 	return moduleUrls
