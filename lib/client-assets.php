@@ -688,8 +688,9 @@ function gutenberg_default_script_modules() {
 		 */
 		$args = array(
 			'fetchpriority'             => 'low',
-			'load_on_client_navigation' => true,
 		);
+
+		gutenberg_register_interactive_script_module_id( $script_module_id );
 
 		$path = gutenberg_url( "build-module/{$file_name}" );
 		wp_register_script_module( $script_module_id, $path, $script_module_data['dependencies'], $script_module_data['version'], $args ); // The $args parameter is new as of WP 6.9 per <https://core.trac.wordpress.org/ticket/61734>.
@@ -709,3 +710,120 @@ remove_action( 'wp_footer', 'wp_enqueue_stored_styles', 1 );
 // Enqueue stored styles.
 add_action( 'wp_enqueue_scripts', 'gutenberg_enqueue_stored_styles' );
 add_action( 'wp_footer', 'gutenberg_enqueue_stored_styles', 1 );
+
+/**
+ * Custom implementation of print_enqueued_script_modules with filter support.
+ */
+function gutenberg_print_enqueued_script_modules() {
+	$wp_script_modules = wp_script_modules();
+	$reflection = new ReflectionClass( $wp_script_modules );
+	
+	// Get private methods via reflection.
+	$get_marked_for_enqueue = $reflection->getMethod( 'get_marked_for_enqueue' );
+	$get_marked_for_enqueue->setAccessible( true );
+	
+	$get_src = $reflection->getMethod( 'get_src' );
+	$get_src->setAccessible( true );
+	
+	// Check if newer methods exist (WP 6.9+).
+	$has_dependents_methods = $reflection->hasMethod( 'get_recursive_dependents' ) && $reflection->hasMethod( 'get_highest_fetchpriority' );
+	
+	if ( $has_dependents_methods ) {
+		$get_recursive_dependents = $reflection->getMethod( 'get_recursive_dependents' );
+		$get_recursive_dependents->setAccessible( true );
+		
+		$get_highest_fetchpriority = $reflection->getMethod( 'get_highest_fetchpriority' );
+		$get_highest_fetchpriority->setAccessible( true );
+	}
+	
+	foreach ( $get_marked_for_enqueue->invoke( $wp_script_modules ) as $id => $script_module ) {
+		$args = array(
+			'type' => 'module',
+			'src'  => $get_src->invoke( $wp_script_modules, $id ),
+			'id'   => $id . '-js-module',
+		);
+
+		if ( $has_dependents_methods ) {
+			$dependents    = $get_recursive_dependents->invoke( $wp_script_modules, $id );
+			$fetchpriority = $get_highest_fetchpriority->invoke( $wp_script_modules, array_merge( array( $id ), $dependents ) );
+			if ( 'auto' !== $fetchpriority ) {
+				$args['fetchpriority'] = $fetchpriority;
+			}
+			if ( $fetchpriority !== $script_module['fetchpriority'] ) {
+				$args['data-wp-fetchpriority'] = $script_module['fetchpriority'];
+			}
+		}
+
+		// Add the new filter allowing the augmentation of script module attributes.
+		$args = apply_filters( 'wp_script_module_attributes', $args, $id, $script_module );
+
+		wp_print_script_tag( $args );
+	}
+}
+
+// Replace the default script module printing with our custom implementation.
+add_action( 'wp_head', function() {
+	// Remove the original hook (priority 10).
+	remove_action( 'wp_head', array( wp_script_modules(), 'print_enqueued_script_modules' ), 10 );
+	// Add our custom implementation.
+	add_action( 'wp_head', 'gutenberg_print_enqueued_script_modules', 10 );
+}, 1 );
+
+add_action( 'wp_footer', function() {
+	// Remove the original hook (priority 10).
+	remove_action( 'wp_footer', array( wp_script_modules(), 'print_enqueued_script_modules' ), 10 );
+	// Add our custom implementation.
+	add_action( 'wp_footer', 'gutenberg_print_enqueued_script_modules', 10 );
+}, 1 );
+
+add_action( 'admin_print_footer_scripts', function() {
+	// Remove the original hook (priority 10).
+	remove_action( 'admin_print_footer_scripts', array( wp_script_modules(), 'print_enqueued_script_modules' ), 10 );
+	// Add our custom implementation.
+	add_action( 'admin_print_footer_scripts', 'gutenberg_print_enqueued_script_modules', 10 );
+}, 1 );
+
+/**
+ * Access the shared static variable for interactive script modules.
+ *
+ * @param string|null $script_module_id The script module ID to register, or null to get the list.
+ * @return array Associative array of script module ID => true.
+ */
+function gutenberg_interactive_script_modules_registry( $script_module_id = null ) {
+	static $interactive_script_modules = array();
+	
+	if ( null !== $script_module_id ) {
+		$interactive_script_modules[ $script_module_id ] = true;
+	}
+	
+	return $interactive_script_modules;
+}
+
+/**
+ * Register a script module ID for interactive blocks.
+ *
+ * @param string $script_module_id The script module ID.
+ */
+function gutenberg_register_interactive_script_module_id( $script_module_id ) {
+	gutenberg_interactive_script_modules_registry( $script_module_id );
+}
+
+/**
+ * Get the list of interactive script module IDs.
+ *
+ * @return array Associative array of script module ID => true.
+ */
+function gutenberg_get_interactive_script_module_ids() {
+	return gutenberg_interactive_script_modules_registry();
+}
+
+add_filter( 'wp_script_module_attributes', function( $args, $id ) {
+	// Check if this script module ID is registered as interactive.
+	$interactive_modules = gutenberg_get_interactive_script_module_ids();
+	if ( isset( $interactive_modules[ $id ] ) ) {
+		$args['data-wp-router-options'] = '{ "loadOnClientNavigation": true }';
+	}
+	
+	return $args;
+}, 10, 2 );
+
