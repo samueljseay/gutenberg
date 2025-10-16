@@ -47,22 +47,20 @@ export const preloadScriptModules = ( doc: Document ) => {
 	// Get the URL of all modules contained in the document.
 	const moduleUrls = [
 		...doc.querySelectorAll< HTMLScriptElement >(
-			'script[type=module][src]'
+			'script[type=module][src][data-wp-router-options]'
 		),
 	]
-		.filter( ( s ) => {
-			const options = s.getAttribute( 'data-wp-router-options' );
-			if ( ! options ) {
-				return false;
-			}
+		.filter( ( script ) => {
 			try {
-				const parsed = JSON.parse( options );
+				const parsed = JSON.parse(
+					script.getAttribute( 'data-wp-router-options' )
+				);
 				return parsed?.loadOnClientNavigation === true;
 			} catch {
 				return false;
 			}
 		} )
-		.map( ( s ) => s.src );
+		.map( ( script ) => script.src );
 
 	// Resolve and fetch those not resolved natively.
 	return moduleUrls
