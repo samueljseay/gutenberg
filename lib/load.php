@@ -47,7 +47,6 @@ if ( class_exists( 'WP_REST_Controller' ) ) {
 	require __DIR__ . '/compat/wordpress-6.9/entity-block-bindings.php';
 	require __DIR__ . '/compat/wordpress-6.9/rest-api.php';
 	require __DIR__ . '/compat/wordpress-6.9/class-gutenberg-hierarchical-sort.php';
-	require __DIR__ . '/compat/wordpress-6.9/script-modules.php';
 
 	// Plugin specific code.
 	require_once __DIR__ . '/class-wp-rest-global-styles-controller-gutenberg.php';
@@ -91,6 +90,7 @@ require __DIR__ . '/compat/wordpress-6.9/command-palette.php';
 require __DIR__ . '/compat/wordpress-6.9/preload.php';
 require __DIR__ . '/compat/wordpress-6.9/l10n.php';
 require __DIR__ . '/compat/wordpress-6.9/site-editor-redirect.php';
+require __DIR__ . '/compat/wordpress-6.9/script-modules.php';
 
 // WordPress 7.0 compat.
 require __DIR__ . '/compat/wordpress-7.0/php-only-blocks.php';
