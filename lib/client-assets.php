@@ -770,7 +770,7 @@ function gutenberg_script_module_add_router_options_attributes( $attributes ): a
 	$interactive_modules = gutenberg_get_interactive_script_module_ids();
 
 	if ( isset( $interactive_modules[ $id ] ) ) {
-		$attributes['data-wp-router-options'] = '{ "loadOnClientNavigation": true }';
+		$attributes['data-wp-router-options'] = wp_json_encode( array( 'loadOnClientNavigation' => true ) );
 	}
 	return $attributes;
 }
