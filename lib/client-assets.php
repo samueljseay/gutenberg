@@ -752,27 +752,15 @@ function gutenberg_script_module_add_router_options_attributes( $attributes ): a
 		$attributes = array();
 	}
 
-	// Do nothing if this is not a script module.
-	if ( ! isset( $attributes['type'] ) || 'module' !== $attributes['type'] ) {
-		return $attributes;
-	}
-
-	if ( ! isset( $attributes['id'] ) ) {
-		return $attributes;
-	}
-
-	if ( 1 !== preg_match( '/^(.+)-js-module$/', $attributes['id'], $matches ) ) {
-		return $attributes;
-	}
-	$id = $matches[1];
-
-	// Check if this script module ID is registered as interactive.
-	$interactive_modules = gutenberg_get_interactive_script_module_ids();
-
-	if ( isset( $interactive_modules[ $id ] ) ) {
+	if (
+		isset( $attributes['id'], $attributes['type'] ) &&
+		'module' === $attributes['type'] &&
+		1 === preg_match( '/^(.+)-js-module$/', $attributes['id'], $matches ) &&
+		array_key_exists( $matches[1], gutenberg_get_interactive_script_module_ids() )
+	) {
 		$attributes['data-wp-router-options'] = wp_json_encode( array( 'loadOnClientNavigation' => true ) );
 	}
 	return $attributes;
 }
 
-add_filter( 'wp_script_attributes', 'gutenberg_script_module_add_router_options_attributes', 10, 2 );
+add_filter( 'wp_script_attributes', 'gutenberg_script_module_add_router_options_attributes' );
