@@ -744,18 +744,35 @@ function gutenberg_get_interactive_script_module_ids() {
 /**
  * Adds `data-wp-router-options` attribute to script modules registered as interactive.
  *
- * @param array  $args The script module attributes.
- * @param string $id   The script module ID.
- * @return array Filtered script module attributes.
+ * @param array<string, string|true>|mixed $attributes Script attributes.
+ * @return array<string, string|true> Filtered script attributes.
  */
-function gutenberg_script_module_add_router_options_attributes( $args, $id ) {
+function gutenberg_script_module_add_router_options_attributes( $attributes ): array {
+	if ( ! is_array( $attributes ) ) {
+		$attributes = array();
+	}
+
+	// Do nothing if this is not a script module.
+	if ( ! isset( $attributes['type'] ) || 'module' !== $attributes['type'] ) {
+		return $attributes;
+	}
+
+	if ( ! isset( $attributes['id'] ) ) {
+		return $attributes;
+	}
+
+	if ( 1 !== preg_match( '/^(.+)-js-module$/', $attributes['id'], $matches ) ) {
+		return $attributes;
+	}
+	$id = $matches[1];
+
 	// Check if this script module ID is registered as interactive.
 	$interactive_modules = gutenberg_get_interactive_script_module_ids();
 
 	if ( isset( $interactive_modules[ $id ] ) ) {
-		$args['data-wp-router-options'] = '{ "loadOnClientNavigation": true }';
+		$attributes['data-wp-router-options'] = '{ "loadOnClientNavigation": true }';
 	}
-		return $args;
+	return $attributes;
 }
 
-add_filter( 'wp_script_module_attributes', 'gutenberg_script_module_add_router_options_attributes', 10, 2 );
+add_filter( 'wp_script_attributes', 'gutenberg_script_module_add_router_options_attributes', 10, 2 );
