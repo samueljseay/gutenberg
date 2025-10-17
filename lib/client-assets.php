@@ -764,3 +764,8 @@ function gutenberg_script_module_add_router_options_attributes( $attributes ): a
 }
 
 add_filter( 'wp_script_attributes', 'gutenberg_script_module_add_router_options_attributes' );
+
+add_action( 'enqueue_block_editor_assets', 'gutenberg_enqueue_latex_to_mathml_loader' );
+function gutenberg_enqueue_latex_to_mathml_loader() {
+	wp_enqueue_script_module( '@wordpress/latex-to-mathml/loader' );
+}
