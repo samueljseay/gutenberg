@@ -27,6 +27,7 @@ import {
 	useEnableFloatingSidebar,
 } from './hooks';
 import { focusCommentThread } from './utils';
+import PluginMoreMenuItem from '../plugin-more-menu-item';
 
 function CollabSidebarContent( {
 	showCommentBoard,
@@ -47,7 +48,10 @@ function CollabSidebarContent( {
 			style={ styles }
 			role="list"
 			spacing="3"
-			ref={ commentSidebarRef }
+			ref={ ( node ) => {
+				// Keeps the ref fresh when switching between floating and pinned sidebar.
+				commentSidebarRef.current = node;
+			} }
 		>
 			{ ! isFloating && (
 				<AddComment
@@ -95,7 +99,7 @@ export default function CollabSidebar() {
 			select( blockEditorStore );
 		const clientId = getSelectedBlockClientId();
 		return clientId
-			? getBlockAttributes( clientId )?.metadata?.commentId
+			? getBlockAttributes( clientId )?.metadata?.noteId
 			: null;
 	}, [] );
 
@@ -156,10 +160,9 @@ export default function CollabSidebar() {
 			<AddCommentMenuItem onClick={ openTheSidebar } />
 			<PluginSidebar
 				identifier={ collabHistorySidebarName }
-				// translators: Comments sidebar title
-				title={ __( 'Comments' ) }
+				title={ __( 'Notes' ) }
 				icon={ commentIcon }
-				closeLabel={ __( 'Close Comments' ) }
+				closeLabel={ __( 'Close Notes' ) }
 			>
 				<CollabSidebarContent
 					comments={ resultComments }
@@ -193,6 +196,9 @@ export default function CollabSidebar() {
 					/>
 				</PluginSidebar>
 			) }
+			<PluginMoreMenuItem icon={ commentIcon } onClick={ openTheSidebar }>
+				{ __( 'Notes' ) }
+			</PluginMoreMenuItem>
 		</>
 	);
 }

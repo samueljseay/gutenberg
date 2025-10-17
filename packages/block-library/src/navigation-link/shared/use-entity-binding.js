@@ -17,33 +17,50 @@ import { useBlockBindingsUtils } from '@wordpress/block-editor';
  */
 export function useEntityBinding( { clientId, attributes } ) {
 	const { updateBlockBindings } = useBlockBindingsUtils( clientId );
-	const { metadata, id } = attributes;
+	const { metadata, id, kind } = attributes;
 
-	// Check if there's a URL binding with the core/entity source
-	const hasUrlBinding =
-		metadata?.bindings?.url?.source === 'core/entity' && !! id;
+	const hasUrlBinding = !! metadata?.bindings?.url && !! id;
+	const expectedSource =
+		kind === 'post-type' ? 'core/post-data' : 'core/term-data';
+	const hasCorrectBinding =
+		hasUrlBinding && metadata?.bindings?.url?.source === expectedSource;
 
 	const clearBinding = useCallback( () => {
-		// Only clear if there's actually a valid binding to clear
 		if ( hasUrlBinding ) {
-			// Remove the URL binding by setting it to undefined
 			updateBlockBindings( { url: undefined } );
 		}
-	}, [ hasUrlBinding, updateBlockBindings ] );
+	}, [ updateBlockBindings, hasUrlBinding, metadata, id ] );
 
-	const createBinding = useCallback( () => {
-		updateBlockBindings( {
-			url: {
-				source: 'core/entity',
-				args: {
-					key: 'url',
+	const createBinding = useCallback(
+		( updatedAttributes ) => {
+			// Use updated attributes if provided, otherwise fall back to closure attributes
+			// updatedAttributes needed to access the most up-to-date data when called synchronously
+			const kindToUse = updatedAttributes?.kind ?? kind;
+
+			// Avoid creating binding if no kind is provided
+			if ( ! kindToUse ) {
+				return;
+			}
+
+			// Default to post-type in case there is a need to support dynamic kinds
+			// in the future.
+			const source =
+				kindToUse === 'taxonomy' ? 'core/term-data' : 'core/post-data';
+
+			updateBlockBindings( {
+				url: {
+					source,
+					args: {
+						key: 'link',
+					},
 				},
-			},
-		} );
-	}, [ updateBlockBindings ] );
+			} );
+		},
+		[ updateBlockBindings, kind, id ]
+	);
 
 	return {
-		hasUrlBinding,
+		hasUrlBinding: hasCorrectBinding,
 		clearBinding,
 		createBinding,
 	};

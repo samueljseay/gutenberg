@@ -15,8 +15,8 @@ import {
 	useEffect,
 	useMemo,
 	useRef,
-	useState,
 	useCallback,
+	useReducer,
 } from '@wordpress/element';
 import { useEntityRecords, store as coreStore } from '@wordpress/core-data';
 import { useDispatch, useRegistry, useSelect } from '@wordpress/data';
@@ -34,19 +34,21 @@ import { store as interfaceStore } from '@wordpress/interface';
 import { store as editorStore } from '../../store';
 import { collabSidebarName } from './constants';
 import { unlock } from '../../lock-unlock';
+import { noop } from './utils';
 
-const { useBlockElementRef } = unlock( blockEditorPrivateApis );
+const { useBlockElementRef, cleanEmptyObject } = unlock(
+	blockEditorPrivateApis
+);
 
 export function useBlockComments( postId ) {
-	const [ commentLastUpdated, setCommentLastUpdated ] = useState( null );
-
-	const reflowComments = () => {
-		setCommentLastUpdated( Date.now() );
-	};
+	const [ commentLastUpdated, reflowComments ] = useReducer(
+		() => Date.now(),
+		0
+	);
 
 	const queryArgs = {
 		post: postId,
-		type: 'block_comment',
+		type: 'note',
 		status: 'all',
 		per_page: 100,
 	};
@@ -69,8 +71,7 @@ export function useBlockComments( postId ) {
 	// Process comments to build the tree structure.
 	const { resultComments, unresolvedSortedThreads } = useMemo( () => {
 		const blocksWithComments = clientIds.reduce( ( results, clientId ) => {
-			const commentId =
-				getBlockAttributes( clientId )?.metadata?.commentId;
+			const commentId = getBlockAttributes( clientId )?.metadata?.noteId;
 			if ( commentId ) {
 				results[ clientId ] = commentId;
 			}
@@ -155,7 +156,7 @@ export function useBlockComments( postId ) {
 	};
 }
 
-export function useBlockCommentsActions( reflowComments ) {
+export function useBlockCommentsActions( reflowComments = noop ) {
 	const { createNotice } = useDispatch( noticesStore );
 	const { saveEntityRecord, deleteEntityRecord } = useDispatch( coreStore );
 	const { getCurrentPostId } = useSelect( editorStore );
@@ -183,7 +184,7 @@ export function useBlockCommentsActions( reflowComments ) {
 					post: getCurrentPostId(),
 					content,
 					status: 'hold',
-					type: 'block_comment',
+					type: 'note',
 					parent: parent || 0,
 				},
 				{ throwOnError: true }
@@ -196,16 +197,14 @@ export function useBlockCommentsActions( reflowComments ) {
 				updateBlockAttributes( clientId, {
 					metadata: {
 						...metadata,
-						commentId: savedRecord.id,
+						noteId: savedRecord.id,
 					},
 				} );
 			}
 
 			createNotice(
 				'snackbar',
-				parent
-					? __( 'Reply added successfully.' )
-					: __( 'Comment added successfully.' ),
+				parent ? __( 'Reply added.' ) : __( 'Note added.' ),
 				{
 					type: 'snackbar',
 					isDismissible: true,
@@ -222,13 +221,13 @@ export function useBlockCommentsActions( reflowComments ) {
 	const onEdit = async ( { id, content, status } ) => {
 		const messageType = status ? status : 'updated';
 		const messages = {
-			approved: __( 'Comment marked as resolved.' ),
-			hold: __( 'Comment reopened.' ),
-			updated: __( 'Comment updated.' ),
+			approved: __( 'Note marked as resolved.' ),
+			hold: __( 'Note reopened.' ),
+			updated: __( 'Note updated.' ),
 		};
 
 		try {
-			// For resolution or reopen actions, create a new comment with metadata.
+			// For resolution or reopen actions, create a new note with metadata.
 			if ( status === 'approved' || status === 'hold' ) {
 				// First, update the thread status.
 				await saveEntityRecord(
@@ -247,11 +246,11 @@ export function useBlockCommentsActions( reflowComments ) {
 				const newCommentData = {
 					post: getCurrentPostId(),
 					content: content || '', // Empty content for resolve, content for reopen.
-					type: 'block_comment',
+					type: 'note',
 					status,
 					parent: id,
 					meta: {
-						_wp_block_comment_status:
+						_wp_note_status:
 							status === 'approved' ? 'resolved' : 'reopen',
 					},
 				};
@@ -273,7 +272,7 @@ export function useBlockCommentsActions( reflowComments ) {
 
 			createNotice(
 				'snackbar',
-				messages[ messageType ] ?? __( 'Comment updated.' ),
+				messages[ messageType ] ?? __( 'Note updated.' ),
 				{
 					type: 'snackbar',
 					isDismissible: true,
@@ -302,14 +301,14 @@ export function useBlockCommentsActions( reflowComments ) {
 				const clientId = getSelectedBlockClientId();
 				const metadata = getBlockAttributes( clientId )?.metadata;
 				updateBlockAttributes( clientId, {
-					metadata: {
+					metadata: cleanEmptyObject( {
 						...metadata,
-						commentId: undefined,
-					},
+						noteId: undefined,
+					} ),
 				} );
 			}
 
-			createNotice( 'snackbar', __( 'Comment deleted successfully.' ), {
+			createNotice( 'snackbar', __( 'Note deleted.' ), {
 				type: 'snackbar',
 				isDismissible: true,
 			} );
