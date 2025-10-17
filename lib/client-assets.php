@@ -711,7 +711,7 @@ add_action( 'wp_footer', 'gutenberg_enqueue_stored_styles', 1 );
  * Access the shared static variable for interactive script modules.
  *
  * @param string|null $script_module_id The script module ID to register, or null to get the list.
- * @return array Associative array of script module ID => true.
+ * @return array<string, true> Associative array of script module ID => true.
  */
 function gutenberg_interactive_script_modules_registry( $script_module_id = null ) {
 	static $interactive_script_modules = array();
@@ -735,7 +735,7 @@ function gutenberg_register_interactive_script_module_id( $script_module_id ) {
 /**
  * Get the list of interactive script module IDs.
  *
- * @return array Associative array of script module ID => true.
+ * @return array<string, true> Associative array of script module ID => true.
  */
 function gutenberg_get_interactive_script_module_ids() {
 	return gutenberg_interactive_script_modules_registry();
