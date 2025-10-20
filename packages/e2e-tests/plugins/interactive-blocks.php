@@ -6,7 +6,6 @@
  *
  * @package gutenberg-test-interactive-blocks
  */
-
 add_action(
 	'init',
 	function () {
@@ -27,8 +26,23 @@ add_action(
 				'test-router-script-modules-wrapper-view-script-module',
 			);
 
-			foreach ( $test_router_script_modules as $module_id ) {
-				gutenberg_register_interactive_script_module_id( $module_id );
+			if ( version_compare( get_bloginfo( 'version' ), '6.9.0', '<' ) ) {
+				foreach ( $test_router_script_modules as $module_id ) {
+					gutenberg_interactive_script_modules_registry( $module_id );
+				}
+			} else {
+				// rely on the script attributes filter
+				add_filter(
+					'wp_script_attributes',
+					function ( $attributes ) use ( $test_router_script_modules ) {
+						if ( in_array( $attributes['id'], $test_router_script_modules, true ) ) {
+							$attributes['data-wp-router-options'] = wp_json_encode( array( 'loadOnClientNavigation' => true ) );
+						}
+						return $attributes;
+					},
+					10,
+					2
+				);
 			}
 		}
 
