@@ -6,6 +6,7 @@
  *
  * @package gutenberg-test-interactive-blocks
  */
+
 add_action(
 	'init',
 	function () {
