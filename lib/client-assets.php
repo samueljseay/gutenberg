@@ -694,7 +694,7 @@ function gutenberg_default_script_modules() {
 			'fetchpriority' => 'low',
 		);
 
-		$path = gutenberg_url( "build-module/{$file_name}" );
+		$path = gutenberg_url( "build-modules/{$file_name}" );
 		wp_register_script_module( $script_module_id, $path, $script_module_data['dependencies'], $script_module_data['version'], $args ); // The $args parameter is new as of WP 6.9 per <https://core.trac.wordpress.org/ticket/61734>.
 	}
 }
