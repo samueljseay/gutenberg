@@ -694,10 +694,8 @@ function gutenberg_default_script_modules() {
 			'fetchpriority' => 'low',
 		);
 
-		if ( function_exists( 'wp_interactivity' ) && method_exists( wp_interactivity(), 'add_client_navigation_support_to_script_module' ) ) {
-			if ( str_starts_with( $script_module_id, '@wordpress/block-library' ) ) {
-				wp_interactivity()->add_client_navigation_support_to_script_module( $script_module_id );
-			}
+		if ( str_starts_with( $script_module_id, '@wordpress/block-library' ) && method_exists( 'WP_Interactivity_API', 'add_client_navigation_support_to_script_module' ) ) {
+			wp_interactivity()->add_client_navigation_support_to_script_module( $script_module_id );
 		}
 
 		$path = gutenberg_url( "build/modules/{$file_name}" );

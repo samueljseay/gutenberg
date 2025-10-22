@@ -10,7 +10,7 @@
  * @package gutenberg
  */
 
-if ( version_compare( get_bloginfo( 'version' ), '6.9.0', '<' ) ) {
+if ( ! method_exists( 'WP_Interactivity_API', 'add_client_navigation_support_to_script_module' ) ) {
 	/**
 	 * Access the shared static variable for interactive script modules.
 	 *
