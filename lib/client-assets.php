@@ -710,7 +710,7 @@ add_action( 'wp_default_scripts', 'gutenberg_default_script_modules' );
 /**
  * Always remove the Core action hook while gutenberg_enqueue_stored_styles() exists to avoid styles being printed twice.
  * This is also because gutenberg_enqueue_stored_styles uses the Style Engine's `gutenberg_*` functions and `_Gutenberg` classes,
- * which are in continuous development and generally ahead of Core .
+ * which are in continuous development and generally ahead of Core.
  */
 remove_action( 'wp_enqueue_scripts', 'wp_enqueue_stored_styles' );
 remove_action( 'wp_footer', 'wp_enqueue_stored_styles', 1 );
